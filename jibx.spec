@@ -47,31 +47,31 @@ Source1:        jibx-bind-1.1.5.pom
 Source2:        jibx-extras-1.1.5.pom
 Source3:        jibx-run-1.1.5.pom
 
-BuildRequires:  jpackage-utils >= 0:1.7.2
+BuildRequires:  java-rpmbuild >= 0:1.7.2
 BuildRequires:  ant
 BuildRequires:  ant-junit
 BuildRequires:  junit
-BuildRequires:  asm2 >= 2.1
+BuildRequires:  asm2 >= 0:2.1
 BuildRequires:  bcel
 BuildRequires:  bea-stax-api
 BuildRequires:  qdox
 BuildRequires:  wstx
 BuildRequires:  dom4j
 BuildRequires:  jdom
-BuildRequires:  xmlpull-api >= 1.1.4
+BuildRequires:  xmlpull-api >= 0:1.1.4
 BuildRequires:  xpp3
 %if %{gcj_support}
 BuildRequires:    java-gcj-compat-devel
 %endif
 
-Requires:       asm2 >= 2.1
+Requires:       asm2 >= 0:2.1
 Requires:       bcel
 Requires:       bea-stax-api
 Requires:       qdox
 Requires:       wstx
 Requires:       dom4j
 Requires:       jdom
-Requires:       xmlpull-api >= 1.1.4
+Requires:       xmlpull-api >= 0:1.1.4
 Requires:       xpp3
 Requires(post):    jpackage-utils >= 0:1.7.2
 Requires(postun):  jpackage-utils >= 0:1.7.2
@@ -201,4 +201,3 @@ fi
 %defattr(0644,root,root,0755)
 %doc %{_javadocdir}/%{name}-%{version}
 %doc %{_javadocdir}/%{name}
-

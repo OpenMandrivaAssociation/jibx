@@ -36,7 +36,7 @@ Name:           jibx
 Version:        1.1.5
 Release:        %mkrel 1.0.1
 Epoch:          0
-Summary:        JiBX is a framework for binding XML data to Java objects
+Summary:        Framework for binding XML data to Java objects
 License:        Public Domain
 Url:            http://jibx.sourceforge.net/
 Group:          Development/Java

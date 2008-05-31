@@ -28,13 +28,13 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-%define gcj_support 1
+%define gcj_support 0
 
 %define section free
 
 Name:           jibx
-Version:        1.1.5
-Release:        %mkrel 1.0.1
+Version:        1.1.6
+Release:        %mkrel 0.0.1
 Epoch:          0
 Summary:        Framework for binding XML data to Java objects
 License:        Public Domain
@@ -42,7 +42,7 @@ Url:            http://jibx.sourceforge.net/
 Group:          Development/Java
 #Vendor: %{?_vendorinfo:%{_vendorinfo}}%{!?_vendorinfo:%{_vendor}}
 #Distribution: %{?_distribution:%{_distribution}}%{!?_distribution:%{_vendor}}
-Source0:        %{name}_1_1_5.zip
+Source0:        %{name}_1_1_6.zip
 Source1:        jibx-bind-1.1.5.pom
 Source2:        jibx-extras-1.1.5.pom
 Source3:        jibx-run-1.1.5.pom
@@ -60,6 +60,7 @@ BuildRequires:  dom4j
 BuildRequires:  jdom
 BuildRequires:  xmlpull-api >= 0:1.1.4
 BuildRequires:  xpp3
+BuildRequires:  log4j
 %if %{gcj_support}
 BuildRequires:    java-gcj-compat-devel
 %endif
@@ -73,6 +74,7 @@ Requires:       dom4j
 Requires:       jdom
 Requires:       xmlpull-api >= 0:1.1.4
 Requires:       xpp3
+Requires:       log4j
 Requires(post):    jpackage-utils >= 0:1.7.2
 Requires(postun):  jpackage-utils >= 0:1.7.2
 
@@ -96,11 +98,7 @@ Group:          Development/Java
 %prep
 %setup -q -n %{name}
 %{__perl} -pi -e 's/<attribute name="Class-Path".*\n//g' build/build.xml
-for j in $(find lib -name "*.jar"); do
-    #mv $j $j.no
-    rm $j
-done
-
+%remove_java_binaries
 
 %build
 
@@ -114,6 +112,7 @@ bcel \
 bea-stax-api \
 dom4j \
 jdom \
+log4j \
 qdox \
 wstx/wstx-asl \
 xmlpull-api \
@@ -161,9 +160,7 @@ install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -pr build/docs/dev/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 
-%if %{gcj_support}
-%{_bindir}/aot-compile-rpm
-%endif
+%{gcj_compile}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -171,19 +168,13 @@ rm -rf $RPM_BUILD_ROOT
 %post
 %update_maven_depmap
 %if %{gcj_support}
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
+%{update_gcjdb}
 %endif
 
 %postun
 %update_maven_depmap
 %if %{gcj_support}
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
+%{clean_gcjdb}
 %endif
 
 %files
@@ -192,10 +183,7 @@ fi
 %{_javadir}/%{name}/*.jar
 %{_datadir}/maven2/poms/*
 %config(noreplace) %{_mavendepmapfragdir}/jibx
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/*-%{version}.jar.*
-%endif
+%{gcj_files}
 
 %files javadoc
 %defattr(0644,root,root,0755)

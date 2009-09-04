@@ -34,7 +34,7 @@
 
 Name:           jibx
 Version:        1.1.6
-Release:        %mkrel 2.0.1
+Release:        %mkrel 2.0.2
 Epoch:          0
 Summary:        Framework for binding XML data to Java objects
 License:        Public Domain

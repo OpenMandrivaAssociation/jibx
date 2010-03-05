@@ -33,8 +33,8 @@
 %define section free
 
 Name:           jibx
-Version:        1.1.6
-Release:        %mkrel 2.0.2
+Version:        1.2.2
+Release:        %mkrel 1
 Epoch:          0
 Summary:        Framework for binding XML data to Java objects
 License:        Public Domain

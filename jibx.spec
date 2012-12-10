@@ -33,8 +33,8 @@
 %define section free
 
 Name:           jibx
-Version:        1.2.2
-Release:        %mkrel 2
+Version:        1.1.6
+Release:        %mkrel 2.0.2
 Epoch:          0
 Summary:        Framework for binding XML data to Java objects
 License:        Public Domain
@@ -189,3 +189,36 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(0644,root,root,0755)
 %doc %{_javadocdir}/%{name}-%{version}
 %doc %{_javadocdir}/%{name}
+
+
+%changelog
+* Fri Sep 04 2009 Thierry Vignaud <tvignaud@mandriva.com> 0:1.1.6-2.0.2mdv2010.0
++ Revision: 429609
+- rebuild
+
+* Fri Aug 08 2008 Thierry Vignaud <tvignaud@mandriva.com> 0:1.1.6-2.0.1mdv2009.0
++ Revision: 267211
+- rebuild early 2009.0 package (before pixel changes)
+
+* Sat May 31 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.1.6-0.0.1mdv2009.0
++ Revision: 213616
+- new version
+
+  + Thierry Vignaud <tvignaud@mandriva.com>
+    - fix "foobar is blabla" summary (=> "blabla") so that it looks nice in rpmdrake
+
+* Sat Dec 29 2007 David Walluck <walluck@mandriva.org> 0:1.1.5-1.0.1mdv2008.1
++ Revision: 139058
+- BuildRequires: java-rpmbuild
+- add some epochs
+- import jibx
+
+
+* Wed May 30 2007 Ralph Apel <r.apel at r-apel.de> 0:1.1.5-1jpp
+- Upgrade to 1.1.5
+- Make Vendor, Distribution based on macro
+- Add gcj_support option
+- Install depmap frags, poms
+
+* Wed May 24 2006 Deepak Bhole <dbhole@redhat.com> 0:1.1-0.b3.1jpp
+- Initial build

@@ -1,0 +1,52 @@
+From a24a03620c2f089b417548e980fb5ba8fe6f0fe7 Mon Sep 17 00:00:00 2001
+From: hannes <hannes@fedoraproject.org>
+Date: Sat, 5 May 2012 11:25:16 +0100
+Subject: [PATCH] classpath
+
+---
+ build/build.xml |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/build/build.xml b/build/build.xml
+index 5c66d42..48aa43c 100644
+--- a/build/build.xml
++++ b/build/build.xml
+@@ -299,7 +299,7 @@ file has been tested with ant version 1.6.1.
+       source="${source}"
+       deprecation="on">
+       <classpath>
+-        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar"/>
++        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar,xpp3.jar"/>
+       </classpath>
+     </javac>
+     <copy todir="${testdest}">
+@@ -312,7 +312,7 @@ file has been tested with ant version 1.6.1.
+     <echo message="Beginning basic jUnit tests"/>
+     <junit haltonfailure="true">
+       <classpath>
+-        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar"/>
++        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar,xpp3.jar"/>
+         <path location="${testdest}"/>
+       </classpath>
+       <formatter type="brief" usefile="false"/>
+@@ -846,7 +846,7 @@ file has been tested with ant version 1.6.1.
+       source="1.5"
+       deprecation="on">
+       <classpath>
+-        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar"/>
++        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar,xpp3.jar,bcel.jar"/>
+       </classpath>
+     </javac>
+     <copy todir="${testdest}">
+@@ -857,7 +857,7 @@ file has been tested with ant version 1.6.1.
+     <echo message="Beginning non-J2ME jUnit tests"/>
+     <junit haltonfailure="true">
+       <classpath>
+-        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar"/>
++        <fileset dir="${lib}" includes="${runname}.jar,${extrasname}.jar,${bindname}.jar,${schemaname}.jar,${toolsname}.jar,asm*.jar,joda*.jar,qdox*.jar,log4j*.jar,org.eclipse.*.jar,junit*.jar,xpp3.jar,bcel.jar"/>
+         <path location="${testdest}"/>
+       </classpath>
+       <formatter type="brief" usefile="false"/>
+-- 
+1.7.10
+

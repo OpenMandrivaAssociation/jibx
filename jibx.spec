@@ -1,224 +1,226 @@
-# Copyright (c) 2000-2007, JPackage Project
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the
-#    distribution.
-# 3. Neither the name of the JPackage Project nor the names of its
-#    contributors may be used to endorse or promote products derived
-#    from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
+%{?_javapackages_macros:%_javapackages_macros}
+%global debug_package %{nil}
 
-%define gcj_support 0
+Name:          jibx
+Version:       1.2.5
+Release:       5.0%{?dist}
+Summary:       Framework for binding XML data to Java objects
+License:       BSD and ASL 1.1
+URL:           http://sourceforge.net/projects/jibx/
+Source0:       http://sourceforge.net/projects/jibx/files/jibx/jibx-1.2.5/%{name}_1_2_5.zip
+Patch0:        %{name}-classpath.patch
+Patch1:        %{name}-%{version}-poms.patch
 
-%define section free
+BuildRequires: java-devel >= 1:1.6.0
+BuildRequires: ant
+BuildRequires: ant-junit
+BuildRequires: junit
+BuildRequires: objectweb-asm
+BuildRequires: bcel
+BuildRequires: bea-stax-api
+BuildRequires: eclipse-equinox-osgi
+BuildRequires: eclipse-jdt
+BuildRequires: eclipse-platform
+BuildRequires: joda-time
+BuildRequires: qdox
+BuildRequires: dom4j
+BuildRequires: jdom
+BuildRequires: xpp3
 
-Name:           jibx
-Version:        1.1.6
-Release:        %mkrel 2.0.2
-Epoch:          0
-Summary:        Framework for binding XML data to Java objects
-License:        Public Domain
-Url:            http://jibx.sourceforge.net/
-Group:          Development/Java
-#Vendor: %{?_vendorinfo:%{_vendorinfo}}%{!?_vendorinfo:%{_vendor}}
-#Distribution: %{?_distribution:%{_distribution}}%{!?_distribution:%{_vendor}}
-Source0:        %{name}_1_1_6.zip
-Source1:        jibx-bind-1.1.5.pom
-Source2:        jibx-extras-1.1.5.pom
-Source3:        jibx-run-1.1.5.pom
-
-BuildRequires:  java-rpmbuild >= 0:1.7.2
-BuildRequires:  ant
-BuildRequires:  ant-junit
-BuildRequires:  junit
-BuildRequires:  asm2 >= 0:2.1
-BuildRequires:  bcel
-BuildRequires:  bea-stax-api
-BuildRequires:  qdox
-BuildRequires:  wstx
-BuildRequires:  dom4j
-BuildRequires:  jdom
-BuildRequires:  xmlpull-api >= 0:1.1.4
-BuildRequires:  xpp3
-BuildRequires:  log4j
-%if %{gcj_support}
-BuildRequires:    java-gcj-compat-devel
-%endif
-
-Requires:       asm2 >= 0:2.1
-Requires:       bcel
-Requires:       bea-stax-api
-Requires:       qdox
-Requires:       wstx
-Requires:       dom4j
-Requires:       jdom
-Requires:       xmlpull-api >= 0:1.1.4
-Requires:       xpp3
-Requires:       log4j
-Requires(post):    jpackage-utils >= 0:1.7.2
-Requires(postun):  jpackage-utils >= 0:1.7.2
-
-%if ! %{gcj_support}
-BuildArch:      noarch
-%endif
-
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Requires:      java
+Requires:      jpackage-utils
 
 %description
 JiBX is a framework for binding XML data to Java objects. It lets you
-work with data from XML documents using your own class structures.
+work with data from XML documents using your own class structures. 
 
 %package javadoc
-Summary:        Javadoc for %{name}
-Group:          Development/Java
+Summary:       Javadoc for %{name}
 
 %description javadoc
-%{summary}.
+This package contains the API documentation for %{name}.
+
 
 %prep
 %setup -q -n %{name}
-%{__perl} -pi -e 's/<attribute name="Class-Path".*\n//g' build/build.xml
-%remove_java_binaries
+#Patch to add the bundled jar dependencies in the classpath
+%patch0 -p1
+#Patch to add maven poms
+%patch1 -p0
 
-%build
+find -name '*.class' -delete
+find -name '*.jar' -delete
 
-# dom4j and jdom are optional. If povided, jibx-extras is built with
-# support for those models
+rm -rf %{_builddir}/%{name}/build/docs/src/*
+
+
+#Symlink the eclipse dependencies
+# platform
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.core.contenttype_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.core.contenttype.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.core.jobs_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.core.jobs.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.core.runtime_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.core.runtime.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.core.resources_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.core.resources.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.equinox.common_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.equinox.common.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.equinox.preferences_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.equinox.preferences.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.text_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.text.jar
+
+plugin_file=`ls %{_libdir}/eclipse/plugins/org.eclipse.jdt.core_*jar`
+ln -s "$plugin_file" lib/org.eclipse.jdt.core.jar
+
+# equinox-osgi
+#plugin_file=`ls %%{_libdir}/eclipse/plugins/org.eclipse.osgi_*.jar`
+#ln -s "$plugin_file" lib/org.eclipse.osgi.jar
+ln -s $(build-classpath eclipse/osgi) lib/org.eclipse.osgi.jar
+
+# jdt
+plugin_file=`ls %{_libdir}/eclipse/dropins/jdt/plugins/org.eclipse.jdt.core.manipulation_*.jar`
+ln -s "$plugin_file" lib/org.eclipse.jdt.core.manipulation.jar
+
 
 build-jar-repository -p lib \
-asm2/asm2 \
-asm2/asm2-commons \
 bcel \
 bea-stax-api \
 dom4j \
 jdom \
+joda-time \
 log4j \
 qdox \
-wstx/wstx-asl \
-xmlpull-api \
-xpp3
+xpp3 
 
+ln -s $(build-classpath objectweb-asm/asm) lib/
+ln -s $(build-classpath objectweb-asm/asm-commons) lib/
+
+sed -i '/Class-Path/I d' %{_builddir}/%{name}/build/build.xml
+
+
+%build
 pushd build/
 sed -i -e s:stax-api.jar:bea-stax-api.jar:g build.xml
-sed -i -e s:wstx-asl.jar:wstx-asl.jar:g build.xml
-export OPT_JAR_LIST="`%{__cat} %{_sysconfdir}/ant.d/junit`"
+
 export CLASSPATH=$(build-classpath junit)
-%{ant} current devdoc #testing
+ant current -Dant.build.javac.source=1.5 -Dant.build.javac.target=1.5 #test-multiples test-singles test-extras basic-blackbox blackbox devdoc javadoc
 
 %install
-rm -rf $RPM_BUILD_ROOT
+install -d -m 755 %{buildroot}/%{_javadir}/%{name}
+install -d -m 755 %{buildroot}%{_mavenpomdir}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/%{name}
-for sub_component in bind extras run; do
-install -m 644 lib/jibx-${sub_component}.jar \
-     $RPM_BUILD_ROOT%{_javadir}/%{name}/${sub_component}-%{version}.jar
+install -pm 644 build/maven/pom.xml %{buildroot}%{_mavenpomdir}/JPP.%{name}-main-reactor.pom
+%add_maven_depmap JPP.%{name}-main-reactor.pom
+
+for sub_component in bind extras run schema tools; do
+install -m 644 lib/%{name}-${sub_component}.jar \
+%{buildroot}/%{_javadir}/%{name}/${sub_component}.jar
+install -pm 644 build/maven/jibx-${sub_component}/pom.xml %{buildroot}%{_mavenpomdir}/JPP.%{name}-${sub_component}.pom
+%add_maven_depmap JPP.%{name}-${sub_component}.pom %{name}/${sub_component}.jar
 done
 
-%add_to_maven_depmap org.jibx %{name}-bind %{version} JPP/%{name} bind
-%add_to_maven_depmap jibx %{name}-bind %{version} JPP/%{name} bind
-%add_to_maven_depmap org.jibx %{name}-extras %{version} JPP/%{name} extras
-%add_to_maven_depmap jibx %{name}-extras %{version} JPP/%{name} extras
-%add_to_maven_depmap org.jibx %{name}-run %{version} JPP/%{name} run
-%add_to_maven_depmap jibx %{name}-run %{version} JPP/%{name} run
+mkdir -p %{buildroot}/%{_javadocdir}/%{name}
+cp -rp %{_builddir}/%{name}/build/docs/* \
+%{buildroot}/%{_javadocdir}/%{name}/
 
-# create unprefixed and unversioned symlinks
-(cd $RPM_BUILD_ROOT%{_javadir}/%{name}
-for jar in *-%{version}*; do ln -sf ${jar} ${jar/-%{version}/}; done
-)
-
-# poms
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
-install -pm 644 %{SOURCE1} \
-    $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-bind.pom
-install -pm 644 %{SOURCE2} \
-    $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-extras.pom
-install -pm 644 %{SOURCE3} \
-    $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.%{name}-extras.pom
-
-
-install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr build/docs/dev/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
-ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-
-%{gcj_compile}
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%post
-%update_maven_depmap
-%if %{gcj_support}
-%{update_gcjdb}
-%endif
-
-%postun
-%update_maven_depmap
-%if %{gcj_support}
-%{clean_gcjdb}
-%endif
 
 %files
-%defattr(0644,root,root,0755)
-%dir %{_javadir}/%{name}
 %{_javadir}/%{name}/*.jar
-%{_datadir}/maven2/poms/*
-%config(noreplace) %{_mavendepmapfragdir}/jibx
-%{gcj_files}
+%dir %{_javadir}/%{name}
+%{_mavenpomdir}/JPP.%{name}-*.pom
+%{_mavendepmapfragdir}/%{name}
 
 %files javadoc
-%defattr(0644,root,root,0755)
-%doc %{_javadocdir}/%{name}-%{version}
-%doc %{_javadocdir}/%{name}
-
+%{_javadocdir}/%{name}
 
 %changelog
-* Fri Sep 04 2009 Thierry Vignaud <tvignaud@mandriva.com> 0:1.1.6-2.0.2mdv2010.0
-+ Revision: 429609
-- rebuild
+* Sun Aug 25 2013 gil cattaneo <puntogil@libero.it> 1.2.5-5
+- install unversioned jars
+- preserve poms timestamp
 
-* Fri Aug 08 2008 Thierry Vignaud <tvignaud@mandriva.com> 0:1.1.6-2.0.1mdv2009.0
-+ Revision: 267211
-- rebuild early 2009.0 package (before pixel changes)
+* Sat Aug 24 2013 gil cattaneo <puntogil@libero.it> 1.2.5-4
+- fix rhbz#992870
+- removed asm2 references
+- fix some rpmlint problems
+- fix BR list
 
-* Sat May 31 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.1.6-0.0.1mdv2009.0
-+ Revision: 213616
-- new version
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.5-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
-  + Thierry Vignaud <tvignaud@mandriva.com>
-    - fix "foobar is blabla" summary (=> "blabla") so that it looks nice in rpmdrake
+* Sat Mar 23 2013 Johannes Lips <hannes@fedoraproject.org> - 1.2.5-2
+- added ant build option to fix #845625
 
-* Sat Dec 29 2007 David Walluck <walluck@mandriva.org> 0:1.1.5-1.0.1mdv2008.1
-+ Revision: 139058
-- BuildRequires: java-rpmbuild
-- add some epochs
-- import jibx
+* Wed Feb 27 2013 Johannes Lips <hannes@fedoraproject.org> - 1.2.5-1
+- update to latest upstream version
 
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.4-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
-* Wed May 30 2007 Ralph Apel <r.apel at r-apel.de> 0:1.1.5-1jpp
-- Upgrade to 1.1.5
-- Make Vendor, Distribution based on macro
-- Add gcj_support option
-- Install depmap frags, poms
+* Wed Jul 25 2012 Johannes Lips <hannes@fedoraproject.org> - 1.2.4-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild 
 
-* Wed May 24 2006 Deepak Bhole <dbhole@redhat.com> 0:1.1-0.b3.1jpp
-- Initial build
+* Sat Jul 21 2012 Johannes Lips <hannes@fedoraproject.org> - 1.2.4-5
+- fixed the empty debuginfo package
+
+* Tue Jul 17 2012 Patryk Obara <pobara@redhat.com> - 1.2.4-4
+- fixed the maven pom patch (#840929)
+
+* Tue May 29 2012 Johannes Lips <hannes@fedoraproject.org> - 1.2.4-3
+- add maven pom (patch from Gil Cattaneo #825465)
+- minor changes to adapt to guideline changes
+
+* Sun May 20 2012 Johannes Lips <johannes.lips@googlemail.com> - 1.2.4-2
+- removed the empty debuginfo subpackage caused by the removal of noarch
+ 
+* Sat May 05 2012 Johannes Lips <johannes.lips@googlemail.com> - 1.2.4-1
+- update to recent upstream version 
+- removed buildarch noarch
+
+* Sat Jan 14 2012 Johannes Lips <johannes.lips@googlemail.com> - 1.2.3-3
+- added eclipse-platform as BR
+- fixed the jdt.core path 
+
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Thu Apr 21 2011 Johannes Lips <johannes.lips@googlemail.com> - 1.2.3-1
+- Update to 1.2.3
+
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.2.2-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Thu Sep 09 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-7
+- added a version requirement for java-devel
+- disabled the tests
+
+* Thu Sep 09 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-6
+- added a patch to meet all the dependencies
+
+* Sun Sep 05 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-5
+- removed the classpath
+- changed the license
+- removed most required packages
+
+* Thu Sep 02 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-4
+- changed the structure
+- 
+* Thu Sep 02 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-3
+- symlinked all eclipse plugins
+- removed all bundled dependencies
+- added the build-jar-repository in the %%prep section
+- added the tests
+
+* Fri Aug 27 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-2
+- consistent usage of %%{buildroot}
+- added missing javadoc file attributes
+
+* Fri Aug 27 2010 Johannes Lips <johannes.lips@googlemail.com> - 1.2.2-1
+- initial build

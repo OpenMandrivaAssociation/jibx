@@ -1,0 +1,192 @@
+diff -Nru build/maven/jibx-bind/pom.xml build/maven-gil/jibx-bind/pom.xml
+--- build/maven/jibx-bind/pom.xml	2012-05-02 09:51:18.000000000 +0200
++++ build/maven-gil/jibx-bind/pom.xml	2012-05-26 16:11:24.000000000 +0200
+@@ -5,7 +5,7 @@
+   <parent>
+     <groupId>org.jibx.config</groupId>
+     <artifactId>main-reactor</artifactId>
+-    <version>1.2.5-SNAPSHOT</version>
++    <version>1.2.5</version>
+   </parent>
+ 
+   <groupId>org.jibx</groupId>
+@@ -72,9 +72,7 @@
+                 org.jibx.binding.*;version=${project.version},
+                 org.jibx.util.*;version=${project.version},
+             </Export-Package>
+-	    <Include-Resource>@${jibxLibDir}/jibx-bind.jar;inline=**</Include-Resource>
+ 	    <Main-Class>org.jibx.binding.Compile</Main-Class>
+-	    <Class-Path>bcel.jar jibx-run.jar xpp3.jar stax-api.jar wstx-asl.jar</Class-Path>
+           </instructions>
+         </configuration>
+       </plugin>
+@@ -85,7 +83,7 @@
+     <dependency>
+       <groupId>${project.groupId}</groupId>
+       <artifactId>jibx-run</artifactId>
+-      <version>1.2.5-SNAPSHOT</version>
++      <version>1.2.5</version>
+     </dependency>
+ 
+     <dependency>
+diff -Nru build/maven/jibx-extras/pom.xml build/maven-gil/jibx-extras/pom.xml
+--- build/maven/jibx-extras/pom.xml	2012-05-02 09:51:18.000000000 +0200
++++ build/maven-gil/jibx-extras/pom.xml	2012-05-26 16:11:24.000000000 +0200
+@@ -5,7 +5,7 @@
+   <parent>
+     <groupId>org.jibx.config</groupId>
+     <artifactId>main-reactor</artifactId>
+-    <version>1.2.5-SNAPSHOT</version>
++    <version>1.2.5</version>
+   </parent>
+ 
+   <groupId>org.jibx</groupId>
+@@ -60,9 +60,7 @@
+             <Export-Package>
+                 org.jibx.extras.*;version=${project.version},
+             </Export-Package>
+-	    <Include-Resource>@${jibxLibDir}/jibx-extras.jar;inline=**</Include-Resource>
+ 	    <Main-Class>org.jibx.extras.TestRoundtrip</Main-Class>
+-	    <Class-Path>jibx-run.jar xpp3.jar stax-api.jar wstx-asl.jar</Class-Path>
+           </instructions>
+         </configuration>
+       </plugin>
+@@ -73,7 +71,7 @@
+     <dependency>
+       <groupId>${project.groupId}</groupId>
+       <artifactId>jibx-run</artifactId>
+-      <version>1.2.5-SNAPSHOT</version>
++      <version>1.2.5</version>
+     </dependency>
+ 
+ 	<dependency>
+diff -Nru build/maven/jibx-run/pom.xml build/maven-gil/jibx-run/pom.xml
+--- build/maven/jibx-run/pom.xml	2012-05-02 09:51:18.000000000 +0200
++++ build/maven-gil/jibx-run/pom.xml	2012-05-26 16:11:24.000000000 +0200
+@@ -5,7 +5,7 @@
+   <parent>
+     <groupId>org.jibx.config</groupId>
+     <artifactId>main-reactor</artifactId>
+-    <version>1.2.5-SNAPSHOT</version>
++    <version>1.2.5</version>
+   </parent>
+ 
+   <groupId>org.jibx</groupId>
+@@ -63,9 +63,7 @@
+             <Export-Package>
+                 org.jibx.runtime.*;version=${project.version},
+             </Export-Package>
+-	    <Include-Resource>@${jibxLibDir}/jibx-run.jar;inline=**</Include-Resource>
+ 	    <Main-Class>org.jibx.runtime.PrintInfo</Main-Class>
+-	    <Class-Path>xpp3.jar stax-api.jar wstx-asl.jar</Class-Path>
+           </instructions>
+         </configuration>
+       </plugin>
+diff -Nru build/maven/jibx-schema/pom.xml build/maven-gil/jibx-schema/pom.xml
+--- build/maven/jibx-schema/pom.xml	2012-05-02 09:51:18.000000000 +0200
++++ build/maven-gil/jibx-schema/pom.xml	2012-05-26 16:11:24.000000000 +0200
+@@ -5,7 +5,7 @@
+   <parent>
+     <groupId>org.jibx.config</groupId>
+     <artifactId>main-reactor</artifactId>
+-    <version>1.2.5-SNAPSHOT</version>
++    <version>1.2.5</version>
+   </parent>
+ 
+   <groupId>org.jibx</groupId>
+@@ -79,8 +79,6 @@
+                 !org.jibx.schema.generator.*,  <!-- In jibx-tools -->
+                 org.jibx.schema.*;version=${project.version},
+             </Export-Package>
+-	    <Include-Resource>@${jibxLibDir}/jibx-schema.jar;inline=**</Include-Resource>
+-	    <Class-Path>jibx-run.jar jibx-bind.jar xpp3.jar stax-api.jar wstx-asl.jar</Class-Path>
+           </instructions>
+         </configuration>
+       </plugin>
+@@ -91,12 +89,12 @@
+     <dependency>
+       <groupId>${project.groupId}</groupId>
+       <artifactId>jibx-bind</artifactId>
+-      <version>1.2.5-SNAPSHOT</version>
++      <version>1.2.5</version>
+     </dependency>
+     <dependency>
+       <groupId>${project.groupId}</groupId>
+       <artifactId>jibx-extras</artifactId>
+-      <version>1.2.5-SNAPSHOT</version>
++      <version>1.2.5</version>
+     </dependency>
+   </dependencies>
+ 
+diff -Nru build/maven/jibx-tools/pom.xml build/maven-gil/jibx-tools/pom.xml
+--- build/maven/jibx-tools/pom.xml	2012-05-02 09:51:18.000000000 +0200
++++ build/maven-gil/jibx-tools/pom.xml	2012-05-26 16:11:24.000000000 +0200
+@@ -5,7 +5,7 @@
+   <parent>
+     <groupId>org.jibx.config</groupId>
+     <artifactId>main-reactor</artifactId>
+-    <version>1.2.5-SNAPSHOT</version>
++    <version>1.2.5</version>
+   </parent>
+ 
+   <groupId>org.jibx</groupId>
+@@ -81,15 +81,7 @@
+                 org.jibx.custom.*;version=${project.version},  <!-- In jibx-tools -->
+                 org.jibx.ws.*;version=${project.version},  <!-- In jibx-tools -->
+             </Export-Package>
+-	    <Include-Resource>@${jibxLibDir}/jibx-tools.jar;inline=**</Include-Resource>
+ 	    <Main-Class>org.jibx.ws.wsdl.tools.Jibx2Wsdl</Main-Class>
+-	    <Class-Path>bcel.jar jibx-run.jar jibx-bind.jar jibx-extras.jar
+-	    jibx-schema.jar xpp3.jar stax-api.jar wstx-asl.jar joda-time.jar log4j.jar
+-	    qdox.jar org.eclipse.core.contenttype.jar org.eclipse.core.jobs.jar
+-	    org.eclipse.core.resources.jar org.eclipse.core.runtime.jar
+-	    org.eclipse.equinox.common.jar org.eclipse.equinox.preferences.jar
+-	    org.eclipse.jdt.core.jar org.eclipse.jdt.core.manipulation.jar org.eclipse.osgi.jar
+-	    org.eclipse.text.jar</Class-Path>
+           </instructions>
+         </configuration>
+       </plugin>
+@@ -100,10 +92,10 @@
+     <dependency>
+       <groupId>${project.groupId}</groupId>
+       <artifactId>jibx-schema</artifactId>
+-      <version>1.2.5-SNAPSHOT</version>
++      <version>1.2.5</version>
+     </dependency>
+ 
+-      <!-- Eclipse dependencies -->
++      <!-- Eclipse dependencies >
+       <dependency>
+           <groupId>org.jibx.config.3rdparty.org.eclipse</groupId>
+           <artifactId>org.eclipse.core.contenttype</artifactId>
+@@ -157,7 +149,7 @@
+           <artifactId>org.eclipse.text</artifactId>
+           <version>3.5.100.v20110505-0800</version>
+           <scope>compile</scope>
+-      </dependency>
++      </dependency-->
+   </dependencies>
+ 
+ </project>
+diff -Nru build/maven/pom.xml build/maven-gil/pom.xml
+--- build/maven/pom.xml	2012-05-02 09:51:18.000000000 +0200
++++ build/maven-gil/pom.xml	2012-05-26 16:29:27.892538845 +0200
+@@ -2,15 +2,9 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+ 
+-  <parent>
+-    <groupId>org.jibx.config</groupId>
+-    <artifactId>core-reactor</artifactId>
+-    <version>1.2.5-SNAPSHOT</version>
+-    <relativePath>../..</relativePath>
+-  </parent>
+-
++  <groupId>org.jibx.config</groupId>
+   <artifactId>main-reactor</artifactId>
+-  
++  <version>1.2.5</version>
+   <packaging>pom</packaging>
+   <name>main-reactor - JiBX main reactor</name>
+   <description>JiBX main reactor</description>
+

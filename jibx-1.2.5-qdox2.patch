@@ -107,3 +107,39 @@
 -}
 \ No newline at end of file
 +}
+--- ./build/src/org/jibx/custom/classes/ClassSourceLocator.java.orig	2014-12-27 01:10:10.482934336 +0000
++++ ./build/src/org/jibx/custom/classes/ClassSourceLocator.java	2014-12-27 01:10:27.259933100 +0000
+@@ -31,7 +31,7 @@
+ import org.jibx.runtime.JiBXException;
+ import org.jibx.util.IClass;
+ 
+-import com.thoughtworks.qdox.JavaDocBuilder;
++import com.thoughtworks.qdox.JavaProjectBuilder;
+ import com.thoughtworks.qdox.model.JavaClass;
+ 
+ /**
+@@ -45,7 +45,7 @@
+     private final String[] m_sourcePaths;
+     
+     /** Source file parser. */
+-    private final JavaDocBuilder m_builder;
++    private final JavaProjectBuilder m_builder;
+     
+     /** Set of classes parsed. */
+     private final Set m_lookupSet;
+@@ -57,7 +57,7 @@
+      */
+     public ClassSourceLocator(String[] paths) {
+         m_sourcePaths = paths;
+-        m_builder = new JavaDocBuilder();
++        m_builder = new JavaProjectBuilder();
+         m_lookupSet = new HashSet();
+     }
+     
+@@ -165,4 +165,4 @@
+     public Class loadClass(String name) {
+         return ClassFile.loadClass(name);
+     }
+-}
+\ No newline at end of file
++}

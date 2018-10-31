@@ -3,7 +3,7 @@
 
 Name:          jibx
 Version:       1.2.5
-Release:       9.2
+Release:       9.3
 Summary:       Framework for binding XML data to Java objects
 Group:		Development/Java
 License:       BSD and ASL 1.1

@@ -7,7 +7,7 @@ Release:       9.3
 Summary:       Framework for binding XML data to Java objects
 Group:		Development/Java
 License:       BSD and ASL 1.1
-URL:           http://sourceforge.net/projects/jibx/
+URL:           https://sourceforge.net/projects/jibx/
 Source0:       http://sourceforge.net/projects/jibx/files/jibx/jibx-1.2.5/%{name}_1_2_5.zip
 Patch0:        %{name}-classpath.patch
 Patch1:        %{name}-%{version}-poms.patch
